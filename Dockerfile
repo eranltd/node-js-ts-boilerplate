@@ -3,7 +3,7 @@
 FROM node:14
 
 # Create app directory
-WORKDIR /usr/src/app
+WORKDIR /src/app
 
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
@@ -17,24 +17,7 @@ RUN npm install
 # Bundle app source
 COPY . .
 
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+EXPOSE 9090
 
-
-
-#Best practice
-
-# FROM node:14.4.0 AS build
-
-# COPY . .
-# RUN npm ci && npm run build
-
-# FROM node:slim-14.4.0
-
-# USER node
-# EXPOSE 8080
-
-# COPY --from=build /home/node/app/dist /home/node/app/package.json /home/node/app/package-lock.json ./
-# RUN npm ci --production
-
-# CMD [ "node", "dist/app.js" ]
+RUN npm run build-server
+CMD ["node", "build/server.js"]
