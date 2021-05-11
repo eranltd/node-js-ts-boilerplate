@@ -1,5 +1,7 @@
 var appRoot = require('app-root-path');
-var winston = require('winston');
+const { createLogger, format, transports } = require('winston');
+const { combine, timestamp, label, printf } = format;
+
 
 /*
 level - Level of messages to log.
@@ -24,28 +26,38 @@ colorize - Colorize the output. This can be helpful when looking at console logs
  * 
  */
 
+    const myFormat = printf(({ level, message, timestamp }) => {
+      return `[${timestamp}] ${level}: ${message}`;
+    });
+
     var options = {
-        file: {
-          level: 'info',
-          filename: `${appRoot}/log/activity.log`,
-          handleExceptions: true,
-          json: true,
-          maxsize: 5242880, // 5MB
-          maxFiles: 5,
-          colorize: false,
-        },
+      file: {
+        level: 'info',
+        filename: `${appRoot}/log/activity.log`,
+        handleExceptions: true,
+        json: true,
+        maxsize: 5242880, // 5MB
+        maxFiles: 5,
+        colorize: false,
+        timestamp: true
+      },
         console: {
           level: 'debug',
           handleExceptions: true,
           json: false,
           colorize: true,
+          timestamp: true
         },
       };
 
-      var logger =  winston.createLogger({
+      var logger =  createLogger({
+        format: combine(
+          timestamp(),
+          myFormat
+        ),
         transports: [
-          new winston.transports.File(options.file),
-          new winston.transports.Console(options.console)
+          new transports.File(options.file),
+          new transports.Console(options.console)
         ],
         exitOnError: false, // do not exit on handled exceptions
       });
