@@ -1,14 +1,17 @@
 
 import express from 'express'
-var winston = require('../../config/winston');
+var path = require("path");
+
+var myLogger = require('../../logger');
 
 const router = express.Router();
 
 
 /** Endpoint : http://localhost:<port>/sample */
 router.get('/', (req, res) => {
-  winston.info("written from sample controller");
-    res.send('Hello World!')
+  myLogger.info("written from sample controller");
+    // res.send('Hello World!');
+    res.sendFile(path.resolve('/sample.html'), { root: './src/views' });
   })
 
   

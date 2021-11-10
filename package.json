@@ -7,7 +7,7 @@
     "postversion": "git push --tags && git push --all",
     "build-server": "tsc -p .",
     "clean": "rm -r build",
-    "dev-server": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+    "dev-server": "NODE_ENV=development nodemon -r dotenv/config --watch  'src/**/*.ts' --exec 'ts-node' src/server.ts",
     "dev": "run-p dev-server",
     "build": "run-s build-server",
     "prestart": "run-s clean build",
@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Workiz/nodejs-microservice-boilerplate.git"
+    "url": ""
   },
   "author": "Workiz Inc.",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Workiz/nodejs-microservice-boilerplate/issues"
+    "url": ""
   },
-  "homepage": "https://github.com/Workiz/nodejs-microservice-boilerplate#readme",
+  "homepage": "",
   "jest": {
     "moduleFileExtensions": [
       "js",

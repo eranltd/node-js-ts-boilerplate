@@ -21,7 +21,16 @@ npm install
 npm dev
 ```
 
-## Deployment ✈️
+## Testing 🤓
+
+```bash
+npm run test
+```
+
+## Log Levels ✈️
+
+set your desired log_level via dotenv variable
+LOG_LEVEL = OFF | ERROR | WARN | INFO | DEBUG | HTTP | ALL
 
 ### Build Artifacts 🛠
 

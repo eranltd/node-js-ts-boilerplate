@@ -1,16 +1,37 @@
-export const loadAllServices = (app) => {
-   
-    // db
-    // mongoose
-    //     .connect(process.env.DATABASE_CLOUD, {
-    //         useNewUrlParser: true,
-    //         useUnifiedTopology: true,
-    //         useCreateIndex: true,
-    //         useFindAndModify: false
-    //     })
-    //     .then(() => console.log('\r\n\r\nMongoDB Atlas DB connected\r\n\r\n',process.env.DATABASE_CLOUD))
-    //     .catch(err => console.log(err));
+// import mongoose from 'mongoose';
+require('dotenv').config();
+import {batchProcessor} from './dummy-service/dummy-service'
+const myLogger = require('../logger')
 
+//
+// async function initMongoDB(){
+//     const mongoDBUri = `${process.env.DB_MONGO_CLOUD_URL}`;
+//
+//     // db
+//     //TODO: remove the const keep the connection
+//     const mongoInstance = await mongoose.connect(mongoDBUri , {
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//         useCreateIndex: true,
+//         useFindAndModify: false,
+//         poolSize : 5
+//     });
+//
+//     mongoose.connection.on('connected', function(){
+//         winston.info(`Mongoose default connection is open at : [${mongoDBUri}]`);
+//     });
+//
+//     mongoose.connection.on('error', function(err){
+//         winston.error(`Mongoose default connection has occurred  : ${err.message}`);
+//     });
+//
+//     mongoose.connection.on('disconnected', function(){
+//         winston.info(`Mongoose default connection is disconnected`);
+//     });
+// }
 
-    /**load your services here, mongoose || elastic || etc... */
-};
+export const loadAllServices = async (app) => {
+    //await initMongoDB();
+    batchProcessor();
+}
+

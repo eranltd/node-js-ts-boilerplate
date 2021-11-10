@@ -1,8 +1,9 @@
-  
 import express from "express";
 
 /*Application config */
 import envConfig from './config/config';
+
+const myLogger = require('./logger');
 
 /**Init Controllers */
 import {loadAllControllers} from './controllers/controllers';
@@ -13,7 +14,6 @@ import {loadAllMiddlewares} from './middlewares/middlewares';
 /*Init Services  */
 
 import {loadAllServices} from './services/services';
-// const mongoose = require('mongoose');
 
 const app = express();
 
@@ -30,6 +30,19 @@ export async function main() {
         console.log('[server]', 'static serve of:', envConfig.client_build_path)
         app.use('/*', express.static(envConfig.client_build_path))
     }
+
+    /*`log level*/
+    myLogger.log('error',`LOG_LEVEL : [${process.env.LOG_LEVEL}]`);
+
+    /* Testing LogLevelBY ENV Variable */
+    myLogger.log('silly', "127.0.0.1 - there's no place like home");
+    myLogger.log('debug', "127.0.0.1 - there's no place like home");
+    myLogger.log('verbose', "127.0.0.1 - there's no place like home");
+    myLogger.log('info', "127.0.0.1 - there's no place like home");
+    myLogger.log('warn', "127.0.0.1 - there's no place like home");
+    myLogger.log('error', "127.0.0.1 - there's no place like home");
+
+    myLogger.info("works");
 
     return "Server has been initialized successfully"
 }

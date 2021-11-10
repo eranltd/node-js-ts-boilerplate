@@ -7,28 +7,45 @@ const rootFolder = path.resolve()
 const environments = {
     development: 'development',
     test: 'test',
-    production: 'production',
+    prod: 'production',
+    staging: 'staging',
 }
 
+const NODE_ENV = process.env.NODE_ENV;
+
 function loadEnvironments() {
-    for (let NODE_ENV in environments) {
 
-        const filepath = path.join(rootFolder, `.env.${NODE_ENV}`)
+    /**check for the right env file */
 
-        if (process.env.NODE_ENV === NODE_ENV && fs.existsSync(filepath)) {
-            console.log('[config]', '[loadEnvironments]', 'loading:', filepath)
-            dotenv.config({ path: filepath })
+    const defaultFilePath = path.join(rootFolder, `.env`)
+    const envFilePath = path.join(rootFolder, `.env.${NODE_ENV}`)
+
+    if(environments[NODE_ENV] != undefined){
+        console.log(`Searching for ${NODE_ENV} file,${envFilePath}`);
+        if (fs.existsSync(envFilePath)) {
+            console.log(`[config] [loadEnvironments] loading: ${envFilePath}`)
+            dotenv.config({ path: envFilePath })
         }
     }
+    else if(fs.existsSync(defaultFilePath)){
+        //     //try take .env
+        console.log(`[config] [loadEnvironments] loading: ${defaultFilePath}`)
+        dotenv.config({ path: envFilePath })
+    }
+    else{
+        console.info(`[config] [loadEnvironments] could not load any .env config including .env.${Object.keys(environments).join(' | ')}`)
 
-    console.log('[config]', '[loadEnvironments]', 'loading .env')
+    }
+
+    //tell the user, do not load.
+
     dotenv.config()
 }
 
 function loadConfig() {
-    const port = parseInt(process.env.PORT) || 8080
+    const port = parseInt(process.env.PORT) || 8082
     const client_build_path = 'client/build'
-    
+
     return {
         port,
         client_build_path,
